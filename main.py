@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from src.app import TerminalApp
+from src.terminal.app import TerminalApp
 # IMPORTS
 
 if __name__ == "__main__":
