@@ -94,6 +94,8 @@ local/
 # virtualenv WINDOWS
 Scripts/
 tcl/
+Lib/
+Include/
 
 # Spyder project settings
 .spyderproject
