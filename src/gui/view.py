@@ -17,12 +17,12 @@ class RiderWindow(QtWidgets.QMainWindow):
         self.tool_bar = RiderToolBar()
         self.rider_view = RiderWebView()
         self.status_bar = QtWidgets.QStatusBar()
-        self.setCentralWidget(self.ui)
+        self.setCentralWidget(self.rider_view)
         self.addToolBar(self.tool_bar)
         self.setStatusBar(QtWidgets.QStatusBar())
 
     def _set_connections(self):
-        self.tool_bar.ride_pressed.connect(self.ui.ride)
+        self.tool_bar.ride_pressed.connect(self.rider_view.ride)
         self.rider_view.urlChanged.connect(self.tool_bar.change_url)
 
 
@@ -30,7 +30,7 @@ class RiderWebView(QtWebEngineWidgets.QWebEngineView):
     """Central widget"""
 
     def __init__(self):
-        super(RiderUi, self).__init__()
+        super(RiderWebView, self).__init__()
         self.load(
             QtCore.QUrl("https://en.wikipedia.org/wiki/Main_Page"))
 
@@ -59,7 +59,7 @@ class RiderToolBar(QtWidgets.QToolBar):
         self.depth_entry = QtWidgets.QLineEdit("0")
         self.depth_entry.setValidator(QtGui.QIntValidator())
         self.depth_entry.setMaximumSize(200, 16777215)
-        self.addWidget(self.url_entry)
+        self.addWidget(self.address_bar)
         self.addWidget(self.depth_entry)
 
     def _set_connections(self):
@@ -72,18 +72,10 @@ class RiderToolBar(QtWidgets.QToolBar):
     def current_url(self):
         """Get current url from the address bar"""
         url = QtCore.QUrl()
-        url.setUrl(self.url_entry.text())
+        url.setUrl(self.address_bar.text())
         return url
 
     @QtCore.Slot(QtCore.QUrl)
     def change_url(self, url):
         """Change url from the address bar"""
         self.address_bar.setText(url.toString())
-
-# Test purposes only
-if __name__ == "__main__":
-    app = QtWidgets.QApplication(sys.argv)
-    app.setStyleSheet("QToolBar { spacing: 10px; padding: 10px; }")
-    window = RiderWindow()
-    window.show()
-    app.exec_()
