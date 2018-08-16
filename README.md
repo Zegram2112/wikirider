@@ -22,7 +22,6 @@ pip install -r requirements.txt
 ```
 
 ### Windows
-Enter the following in administrator mode.
 ```
 git clone git@github.com:sadboyzvone/wikirider.git
 pip install virtualenv
@@ -39,9 +38,15 @@ pip install -r requirements_windows.txt
 At the moment of writing, having 64-bit python installed is necessary to
 run the interactive GUI.
 
-## Run
+## Usage
+
+To run Wikiruner through a terminal
 ```bash
-python main.py
+python main.py [fancy-wikipedia-url] [depth]
+```
+Or through a grafical interface **(experimental)**
+```bash
+python main.py gui
 ```
 
 ## FAQ:
