@@ -4,7 +4,7 @@ from __future__ import print_function, absolute_import
 from sys import argv as args
 
 from src.terminal.view import RidePrinter
-from src.wikirider import WikiRider
+from src.core import WikiRider
 
 
 class TerminalApp:

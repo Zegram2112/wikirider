@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # IMPORTS
 from src.terminal.app import TerminalApp
-from src.gui.app import QtApp
+from src.qt.app import QtApp
 import sys
 
 if __name__ == "__main__":
