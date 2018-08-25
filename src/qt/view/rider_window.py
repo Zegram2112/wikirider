@@ -1,7 +1,7 @@
 import sys
 from PySide2.QtWidgets import QMainWindow, QStatusBar, QDockWidget
-from PySide2.QtCore import Qt
-from src.qt.view import RiderToolBar, RiderWebView, RiderUrlList
+from PySide2.QtCore import Qt, Slot, QUrl, QThread
+from src.qt.view import RiderToolBar, RiderWebView, RiderUrlList, WikiRiderWorker
 
 
 class RiderWindow(QMainWindow):
@@ -11,6 +11,10 @@ class RiderWindow(QMainWindow):
         super(RiderWindow, self).__init__()
         self.setGeometry(100, 100, 1024, 768)
         self.setWindowTitle("WikiRider")
+        self.worker = WikiRiderWorker()
+        self.worker_thread = QThread()
+        self.worker.moveToThread(self.worker_thread)
+        self.worker_thread.start()
         self._create_components()
         self._create_dock_components()
         self._set_connections()
@@ -33,3 +37,10 @@ class RiderWindow(QMainWindow):
     def _set_connections(self):
         self.rider_view.urlChanged.connect(self.tool_bar.change_url)
         self.url_list.url_clicked.connect(self.rider_view.change_url)
+        self.tool_bar.ride_clicked.connect(self.worker.ride)
+        self.worker.url_visited.connect(self.rider_view.change_url)
+        self.worker.url_visited.connect(self.url_list.add_url)
+
+    @Slot()
+    def ride_finished(self):
+        print("ride has finished")
