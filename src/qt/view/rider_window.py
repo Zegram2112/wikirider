@@ -18,6 +18,8 @@ class RiderWindow(QMainWindow):
         self._create_components()
         self._create_dock_components()
         self._set_connections()
+        starting_url = QUrl("https://en.wikipedia.org/wiki/Main_Page")
+        self.rider_view.load(starting_url)
 
     def _create_components(self):
         self.tool_bar = RiderToolBar()
@@ -25,12 +27,12 @@ class RiderWindow(QMainWindow):
         self.status_bar = QStatusBar()
         self.setCentralWidget(self.rider_view)
         self.addToolBar(self.tool_bar)
-        self.setStatusBar(QStatusBar())
+        self.setStatusBar(self.status_bar)
 
     def _create_dock_components(self):
         self.docks = {}
         self.url_list = RiderUrlList()
-        self.docks['links'] = QDockWidget("Rider links", self)
+        self.docks['links'] = QDockWidget("WikiRider History", self)
         self.docks['links'].setWidget(self.url_list)
         self.addDockWidget(Qt.LeftDockWidgetArea, self.docks['links'])
 
@@ -38,9 +40,6 @@ class RiderWindow(QMainWindow):
         self.rider_view.urlChanged.connect(self.tool_bar.change_url)
         self.url_list.url_clicked.connect(self.rider_view.change_url)
         self.tool_bar.ride_clicked.connect(self.worker.ride)
+        self.worker.started.connect(self.url_list.clear)
         self.worker.url_visited.connect(self.rider_view.change_url)
         self.worker.url_visited.connect(self.url_list.add_url)
-
-    @Slot()
-    def ride_finished(self):
-        print("ride has finished")
