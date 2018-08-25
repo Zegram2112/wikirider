@@ -1,6 +1,5 @@
-from PySide2.QtWebEngineWidgets import QWebEngineView, QWebEnginePage
-from PySide2.QtCore import Slot, Signal, QUrl
-import time
+from PySide2.QtWebEngineWidgets import QWebEngineView
+from PySide2.QtCore import Slot, QUrl
 
 
 class RiderWebView(QWebEngineView):
@@ -10,9 +9,6 @@ class RiderWebView(QWebEngineView):
         super(RiderWebView, self).__init__()
         self.load(QUrl("https://en.wikipedia.org/wiki/Main_Page"))
 
-    @Slot(QUrl, type)
-    def ride(self, url, rider_class):
-        rider = rider_class(url.toString(), 2)
-        for ride_state in rider.run():
-            pass
-        self.load(rider.visited_urls[-1])
+    @Slot(QUrl)
+    def change_url(self, url):
+        self.load(url)

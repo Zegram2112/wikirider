@@ -7,7 +7,7 @@ from src.core.wikirider import WikiRider
 class RiderToolBar(QToolBar):
     """Bar with the most useful tools needed to ride Wikipedia"""
 
-    ride_pressed = Signal(QUrl, type)
+    ride_clicked = Signal(QUrl)
 
     def __init__(self):
         super(RiderToolBar, self).__init__()
@@ -23,7 +23,7 @@ class RiderToolBar(QToolBar):
         self.addWidget(self.address_bar)
 
     def _set_connections(self):
-        self.ride_actn.triggered.connect(self._emit_ride_pressed)
+        self.ride_actn.triggered.connect(self._emit_ride_clicked)
 
     @property
     def current_url(self):
@@ -37,6 +37,6 @@ class RiderToolBar(QToolBar):
         """Change url from the address bar"""
         self.address_bar.setText(url.toString())
 
-    def _emit_ride_pressed(self):
+    def _emit_ride_clicked(self):
         """Emit ride pressed signal with the url in the address bar"""
-        self.ride_pressed.emit(self.current_url, WikiRider)
+        self.ride_clicked.emit(self.current_url)
